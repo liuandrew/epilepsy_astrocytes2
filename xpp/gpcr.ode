@@ -1,0 +1,37 @@
+# XPP code to recreate bifurcation diagrams
+# Copyright: Marsa Taheri and Gregory Handy, 2016
+
+Gstar' = kp*glut*(1-Gstar-Gd1-Gd2) - km*Gstar - kd1*Gstar - kd2*lamb*Gstar
+Gd1' = kd1*Gstar - kr1*Gd1
+Gd2' = kd2*lamb*(1-Gd1-Gd2) - kr2*Gd2 
+#Note here that (1-Gd1-Gd2) = G+G*
+lamb' = klp*Gstar - klm*lamb
+
+aux G = 1-Gstar-Gd1-Gd2
+
+init lamb=0
+
+#Bifurcation parameter
+param glut = 0
+
+
+#GPCR params
+param kp = 0.03
+param km = 0.04
+# param kd1 = 0.01
+# param kr1 = 0.005
+# param kd2 = 0.003
+# param kr2 = 0.0007
+param kd1 = 0.02
+param kr1 = 0.01
+param kd2 = 0.6
+param kr2 = 0.005
+param klp = 0.0002
+param klm = 0.004
+@ ylo=0,ds=0.005,dsmin=0.001,dsmax=0.01,nmax=1200,npr=700
+@ autoymin=0,autoymax=.708,parmax=1,autoxmin=0,autoxmax=.5
+@ total=1000,xhi=100,ylo=0,yhi=1.5,nmesh=100
+
+@ bounds=1000
+
+done

@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}Previous Calcium Dynamics Model}{2}
+\contentsline {subsection}{\numberline {1.1}Oscillating Behavior}{3}
+\contentsline {subsection}{\numberline {1.2}Classifying Calcium Responses}{3}
+\contentsline {section}{\numberline {2}IP3 Dynamics}{5}
+\contentsline {subsection}{\numberline {2.1}Class I vs. Class II System}{7}
+\contentsline {subsection}{\numberline {2.2}Positive and Negative Feedback}{8}
+\contentsline {subsection}{\numberline {2.3}Oscillation Delays}{10}
+\contentsline {subsubsection}{\numberline {2.3.1}Parameters that induce delays}{10}
+\contentsline {subsubsection}{\numberline {2.3.2}Explanations of the oscillation delays}{12}
+\contentsline {section}{\numberline {3}Glutamate GPCR Model}{13}
+\contentsline {subsection}{\numberline {3.1}Heterologous Deactivation (Gd2)}{15}
+\contentsline {subsection}{\numberline {3.2}Classifying Calcium Response}{15}

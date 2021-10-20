@@ -1,0 +1,90 @@
+# XPP code to recreate bifurcation diagrams
+# Copyright: Marsa Taheri and Gregory Handy, 2016
+
+# ODEs
+c' = (j_ip3r(c,p)-j_serca(c)+j_leak(c)+(j_in-j_out-j_pmca+j_soc(c,c_t))*delta)
+c_t' = ((j_in-j_out-j_pmca+j_soc(c,c_t))*delta)
+h'= ((h_inf(c,p)-h)/tau_h(c,p))
+p' = p_prod(c,p) - p_degrad(c,p)
+
+aux ca_er=(c_t-c)*gamma
+
+# Terms on ER
+m_inf(p) = p/(p+d_1)
+n_inf(c) = c/(c+d_5)
+h_inf(c,p) = q_2(p)/(q_2(p)+c)
+
+q_2(p) = d_2 *(p+d_1)/(p+d_3)
+tau_h(c,p) = 1/(a_2*(q_2(p)+c))
+
+j_ip3r(c,p) = v_ip3r*m_inf(p)^3*n_inf(c)^3*h^3*((c_t-c)*gamma-c)
+j_leak(c) = v_leak*((c_t-c)*gamma-c)
+j_serca(c) = v_serca*c^1.75/(c^1.75+k_serca^1.75)
+
+# Terms on plasma membrane
+j_in = v_in
+j_out = k_out*c
+
+j_pmca=v_pmca*c^2/(k_pmca^2 + c^2)
+
+j_soc(c,c_t) = v_soc*k_soc^4/(k_soc^4+((c_t-c)*gamma)^4)
+
+# IP3 Production Degradation Terms
+p_prod(c,p) = v_beta*Gstar + v_delta*((k_delta)/(1+p))*((c**2)/(c**2 + k_plcdelta**2))
+p_degrad(c,p) = v_3k*((c**4)/(c**4 + k_d**4))*(p/(p+k_3)) + r_5p*p
+
+# Initial Conditions
+init c=0.094885203, h=0.673
+init c_t=34.887, p=0.056063
+
+
+#Bifurcation parameter
+param Gstar = 0.1
+param v_delta = 0.01
+
+
+param gamma=5.4054
+
+# Leak for ER
+param v_leak=0.002
+
+# Leak across plasma membrane
+param v_in=0.05, k_out=1.2
+
+# IP3R Parameters
+param v_ip3r=0.222
+param d_1=.13,d_2=1.049,d_3=.9434,d_5=.08234
+param a_2=0.04
+
+# PMCA Params
+param v_pmca=10,k_pmca=2.5
+
+# SOC Params
+param v_soc=1.57,k_soc=90
+
+# SERCA Params
+param v_serca=0.9, k_serca=0.1
+
+# Sneyd Parameter
+param delta=0.2
+
+#IP3 Production Params
+param v_beta = 0.2
+param k_delta = 1.5
+param k_plcdelta = 0.1
+
+#IP3 Degradation Params
+param v_3k = 0.1
+param k_d = 0.7
+param k_3 = 1
+param r_5p = 0.12
+
+
+@ ylo=0,ds=0.005,dsmin=0.001,dsmax=0.01,nmax=1200,npr=700
+@ autoymin=0,autoymax=.708,parmax=1,autoxmin=0,autoxmax=.5
+@ total=300,xhi=100,ylo=0,yhi=1.5,nmesh=100
+@ xlo=0,xhi=300
+
+@ bounds=300
+
+done

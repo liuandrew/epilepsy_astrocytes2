@@ -1,0 +1,3 @@
+* In the LLE paper, I have trouble understanding what it means to say that "The constrained weights that minimize these reconstruction errors obey an important symmetry: ..." Why are they invariant to rotations, rescaling etc.? Maybe there is some simple geometric intuition for this
+* Is LLE commonly used versus say PCA or UMAP (topological data analysis method, which seems similar to LLE)
+* No questions about the process of the olfactory paper, but very interested to hear about what possible applications this could have in anythin you're interested in researching! Looks like a very cool method

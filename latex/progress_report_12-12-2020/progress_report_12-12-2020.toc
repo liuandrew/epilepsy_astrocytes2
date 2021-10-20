@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline {1}Outline and Recap}{2}
+\contentsline {section}{\numberline {2}Glutamate GPCR Model}{2}
+\contentsline {subsection}{\numberline {2.1}Previous Model}{2}
+\contentsline {subsection}{\numberline {2.2}GPCR Details}{2}
+\contentsline {subsubsection}{\numberline {2.2.1}Homologous versus Heterologous Desensitization}{3}
+\contentsline {subsection}{\numberline {2.3}The New Model with $G_{d2}$}{4}
+\contentsline {subsection}{\numberline {2.4}Fitting the New Model}{6}
+\contentsline {subsection}{\numberline {2.5}New Full Model Properties}{8}
+\contentsline {subsubsection}{\numberline {2.5.1}Potential Problem with the Primary Parameter Set}{11}
+\contentsline {subsection}{\numberline {2.6}Classifying Calcium Response}{11}

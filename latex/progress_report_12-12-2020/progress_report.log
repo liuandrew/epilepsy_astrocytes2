@@ -1,0 +1,372 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.15)  12 DEC 2020 14:23
+entering extended mode
+**./progress_report.tex
+(progress_report.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 75 language(s) loaded.
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
+File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2017/09/02 v2.17a AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks14
+\ex@=\dimen103
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen104
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count87
+LaTeX Info: Redefining \frac on input line 213.
+\uproot@=\count88
+\leftroot@=\count89
+LaTeX Info: Redefining \overline on input line 375.
+\classnum@=\count90
+\DOTSCASE@=\count91
+LaTeX Info: Redefining \ldots on input line 472.
+LaTeX Info: Redefining \dots on input line 475.
+LaTeX Info: Redefining \cdots on input line 596.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen105
+LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
+\macc@depth=\count92
+\c@MaxMatrixCols=\count93
+\dotsspace@=\muskip10
+\c@parentequation=\count94
+\dspbrk@lvl=\count95
+\tag@help=\toks15
+\row@=\count96
+\column@=\count97
+\maxfields@=\count98
+\andhelp@=\toks16
+\eqnshift@=\dimen106
+\alignsep@=\dimen107
+\tagshift@=\dimen108
+\tagwidth@=\dimen109
+\totwidth@=\dimen110
+\lineht@=\dimen111
+\@envbody=\toks17
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks18
+LaTeX Info: Redefining \[ on input line 2817.
+LaTeX Info: Redefining \] on input line 2818.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen112
+\Gin@req@width=\dimen113
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count99
+\float@exts=\toks20
+\float@box=\box28
+\@float@everytoks=\toks21
+\@floatcapt=\box29
+) (progress_report.aux)
+\openout1 = `progress_report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+(C:\Users\Andy\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count100
+\scratchdimen=\dimen114
+\scratchbox=\box30
+\nofMPsegments=\count101
+\nofMParguments=\count102
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count103
+\MPscratchDim=\dimen115
+\MPnumerator=\count104
+\makeMPintoPDFobject=\count105
+\everyMPtoPDFconversion=\toks23
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)))
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+
+LaTeX Warning: No \author given.
+
+(progress_report.toc)
+\tf@toc=\write3
+\openout3 = `progress_report.toc'.
+
+ [1
+
+{C:/Users/Andy/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+<figures/taheri_fig3_clip.png, id=8, 264.99pt x 408.02437pt>
+File: figures/taheri_fig3_clip.png Graphic file (type png)
+<use figures/taheri_fig3_clip.png>
+Package pdftex.def Info: figures/taheri_fig3_clip.png  used on input line 25.
+(pdftex.def)             Requested size: 195.0pt x 300.25853pt.
+ [2 <./figures/taheri_fig3_clip.png>]
+<figures/handy_fig3_clip.png, id=17, 703.12688pt x 124.96687pt>
+File: figures/handy_fig3_clip.png Graphic file (type png)
+<use figures/handy_fig3_clip.png>
+Package pdftex.def Info: figures/handy_fig3_clip.png  used on input line 36.
+(pdftex.def)             Requested size: 390.0pt x 69.31357pt.
+<figures/taheri_fig2_clip.png, id=18, 255.95625pt x 231.11343pt>
+File: figures/taheri_fig2_clip.png Graphic file (type png)
+<use figures/taheri_fig2_clip.png>
+Package pdftex.def Info: figures/taheri_fig2_clip.png  used on input line 50.
+(pdftex.def)             Requested size: 195.0pt x 176.07474pt.
+ [3 <./figures/handy_fig3_clip.png>]
+<figures/taheri_fig4_clip.png, id=23, 470.50781pt x 276.28218pt>
+File: figures/taheri_fig4_clip.png Graphic file (type png)
+<use figures/taheri_fig4_clip.png>
+Package pdftex.def Info: figures/taheri_fig4_clip.png  used on input line 59.
+(pdftex.def)             Requested size: 195.0pt x 114.50319pt.
+ [4 <./figures/taheri_fig2_clip.png> <./figures/taheri_fig4_clip.png>]
+<figures/Gstar_steps.png, id=29, 722.7pt x 722.7pt>
+File: figures/Gstar_steps.png Graphic file (type png)
+<use figures/Gstar_steps.png>
+Package pdftex.def Info: figures/Gstar_steps.png  used on input line 95.
+(pdftex.def)             Requested size: 272.99881pt x 272.99678pt.
+
+[5]
+<figures/c_Gstar_bifurcation.png, id=35, 423.5825pt x 307.1475pt>
+File: figures/c_Gstar_bifurcation.png Graphic file (type png)
+<use figures/c_Gstar_bifurcation.png>
+Package pdftex.def Info: figures/c_Gstar_bifurcation.png  used on input line 10
+2.
+(pdftex.def)             Requested size: 195.0pt x 141.39735pt.
+ [6 <./figures/Gstar_steps.png> <./figures/c_Gstar_bifurcation.png>]
+<figures/calcium_ip3_spike_timing.png, id=41, 1002.74625pt x 428.60126pt>
+File: figures/calcium_ip3_spike_timing.png Graphic file (type png)
+<use figures/calcium_ip3_spike_timing.png>
+Package pdftex.def Info: figures/calcium_ip3_spike_timing.png  used on input li
+ne 125.
+(pdftex.def)             Requested size: 312.00119pt x 133.3555pt.
+
+[7 <./figures/calcium_ip3_spike_timing.png>]
+<figures/v3k_2_Gstar_steps.png, id=47, 665.48625pt x 671.50874pt>
+File: figures/v3k_2_Gstar_steps.png Graphic file (type png)
+<use figures/v3k_2_Gstar_steps.png>
+Package pdftex.def Info: figures/v3k_2_Gstar_steps.png  used on input line 144.
+
+(pdftex.def)             Requested size: 272.99881pt x 275.47406pt.
+ [8 <./figures/v3k_2_Gstar_steps.png>]
+<figures/positive_negative_bifurcations.png, id=52, 852.18375pt x 695.59875pt>
+File: figures/positive_negative_bifurcations.png Graphic file (type png)
+<use figures/positive_negative_bifurcations.png>
+Package pdftex.def Info: figures/positive_negative_bifurcations.png  used on in
+put line 155.
+(pdftex.def)             Requested size: 272.99881pt x 222.84027pt.
+ [9 <./figures/positive_negative_bifurcations.png>]
+<figures/varying_v3k_oscillation_delays.png, id=57, 1414.28375pt x 671.50874pt>
+
+File: figures/varying_v3k_oscillation_delays.png Graphic file (type png)
+<use figures/varying_v3k_oscillation_delays.png>
+Package pdftex.def Info: figures/varying_v3k_oscillation_delays.png  used on in
+put line 174.
+(pdftex.def)             Requested size: 390.0pt x 185.17267pt.
+<figures/oscillation_delay_times_v_delta_0_01.png, id=58, 647.41875pt x 547.043
+75pt>
+File: figures/oscillation_delay_times_v_delta_0_01.png Graphic file (type png)
+<use figures/oscillation_delay_times_v_delta_0_01.png>
+Package pdftex.def Info: figures/oscillation_delay_times_v_delta_0_01.png  used
+ on input line 191.
+(pdftex.def)             Requested size: 234.00238pt x 197.72023pt.
+ [10 <./figures/varying_v3k_oscillation_delays.png>]
+<figures/oscillation_delay_times_v_delta_0.png, id=63, 647.41875pt x 547.04375p
+t>
+File: figures/oscillation_delay_times_v_delta_0.png Graphic file (type png)
+<use figures/oscillation_delay_times_v_delta_0.png>
+Package pdftex.def Info: figures/oscillation_delay_times_v_delta_0.png  used on
+ input line 198.
+(pdftex.def)             Requested size: 234.00238pt x 197.72023pt.
+ [11 <./figures/oscillation_delay_times_v_delta_0_01.png> <./figures/oscillatio
+n_delay_times_v_delta_0.png>]
+<figures/snapshot_of_trajectory_animation_no_feedback.png, id=69, 1220.30907pt 
+x 462.22687pt>
+File: figures/snapshot_of_trajectory_animation_no_feedback.png Graphic file (ty
+pe png)
+<use figures/snapshot_of_trajectory_animation_no_feedback.png>
+Package pdftex.def Info: figures/snapshot_of_trajectory_animation_no_feedback.p
+ng  used on input line 213.
+(pdftex.def)             Requested size: 272.99881pt x 103.4041pt.
+ [12 <./figures/snapshot_of_trajectory_animation_no_feedback.png>]
+<figures/c_glut_bifurcation.png, id=73, 665.48625pt x 624.3325pt>
+File: figures/c_glut_bifurcation.png Graphic file (type png)
+<use figures/c_glut_bifurcation.png>
+Package pdftex.def Info: figures/c_glut_bifurcation.png  used on input line 249
+.
+(pdftex.def)             Requested size: 234.00238pt x 219.52946pt.
+ [13]
+<figures/gpcr_positive_negative_bifurcations.png, id=78, 852.18375pt x 695.5987
+5pt>
+File: figures/gpcr_positive_negative_bifurcations.png Graphic file (type png)
+<use figures/gpcr_positive_negative_bifurcations.png>
+Package pdftex.def Info: figures/gpcr_positive_negative_bifurcations.png  used 
+on input line 256.
+(pdftex.def)             Requested size: 234.00238pt x 190.99837pt.
+ [14 <./figures/c_glut_bifurcation.png> <./figures/gpcr_positive_negative_bifur
+cations.png>]
+<figures/Gd2_long_equilibria_bath_01_1.png, id=84, 931.48pt x 630.355pt>
+File: figures/Gd2_long_equilibria_bath_01_1.png Graphic file (type png)
+<use figures/Gd2_long_equilibria_bath_01_1.png>
+Package pdftex.def Info: figures/Gd2_long_equilibria_bath_01_1.png  used on inp
+ut line 267.
+(pdftex.def)             Requested size: 272.99881pt x 184.74118pt.
+ [15 <./figures/Gd2_long_equilibria_bath_01_1.png>]
+<figures/ip3_classification.png, id=89, 722.7pt x 722.7pt>
+File: figures/ip3_classification.png Graphic file (type png)
+<use figures/ip3_classification.png>
+Package pdftex.def Info: figures/ip3_classification.png  used on input line 279
+.
+(pdftex.def)             Requested size: 234.00238pt x 234.00354pt.
+<figures/SP_example.png, id=90, 578.16pt x 578.16pt>
+File: figures/SP_example.png Graphic file (type png)
+<use figures/SP_example.png>
+Package pdftex.def Info: figures/SP_example.png  used on input line 286.
+(pdftex.def)             Requested size: 117.00119pt x 116.99736pt.
+<figures/MP_example.png, id=91, 578.16pt x 578.16pt>
+File: figures/MP_example.png Graphic file (type png)
+<use figures/MP_example.png>
+Package pdftex.def Info: figures/MP_example.png  used on input line 287.
+(pdftex.def)             Requested size: 117.00119pt x 116.99736pt.
+<figures/PL_example.png, id=92, 578.16pt x 578.16pt>
+File: figures/PL_example.png Graphic file (type png)
+<use figures/PL_example.png>
+Package pdftex.def Info: figures/PL_example.png  used on input line 288.
+(pdftex.def)             Requested size: 117.00119pt x 116.99736pt.
+ [16 <./figures/ip3_classification.png> <./figures/SP_example.png> <./figures/M
+P_example.png> <./figures/PL_example.png>]
+<figures/glut_classification.png, id=100, 722.7pt x 722.7pt>
+File: figures/glut_classification.png Graphic file (type png)
+<use figures/glut_classification.png>
+Package pdftex.def Info: figures/glut_classification.png  used on input line 29
+7.
+(pdftex.def)             Requested size: 272.99881pt x 272.99678pt.
+
+[17 <./figures/glut_classification.png>] (progress_report.bbl) [18]
+(progress_report.aux) ) 
+Here is how much of TeX's memory you used:
+ 2251 strings out of 493305
+ 33282 string characters out of 3138877
+ 90163 words of memory out of 3000000
+ 5763 multiletter control sequences out of 15000+200000
+ 10280 words of font info for 37 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 41i,9n,25p,886b,220s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
+12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program
+ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmti12.pfb>
+Output written on progress_report.pdf (18 pages, 1478096 bytes).
+PDF statistics:
+ 138 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 106 words of extra memory for PDF output out of 10000 (max. 10000000)
+

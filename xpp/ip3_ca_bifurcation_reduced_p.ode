@@ -1,0 +1,129 @@
+# XPP code to recreate bifurcation diagrams
+# Copyright: Marsa Taheri and Gregory Handy, 2016
+
+# ODEs
+c' = (j_ip3r(c)-j_serca(c)+j_leak(c)+(j_in-j_out-j_pmca+j_soc(c,c_t))*delta)
+c_t' = ((j_in-j_out-j_pmca+j_soc(c,c_t))*delta)
+h'= ((h_inf(c)-h)/tau_h(c))
+
+# aux ca_er=(c_t-c)*gamma
+# aux ip3_val = ip3(c)
+# aux n_inf_val = n_inf(c)
+# aux b_val = b(c)
+# aux d_val = d(c)
+# aux e_val = e(c)
+# aux p_val = p(c)
+# aux q_val = q(c)
+# aux r_val = r(c)
+# aux test_val = (q(c)^2 + (r(c)-p(c)^2)^3)
+
+# Terms to calculate ip3 quasi-steadystate
+c_1(c) = v_delta*k_delta*((c**2)/(c**2 + k_plcdelta**2))
+c_2(c) = v_3k*((c**4)/(c**4 + k_d**4))
+
+#cubic terms
+#a = -r_5p
+#b(c) = -(1 + k_3)*r_5p - c_2(c) + v_beta*Gstar
+#d(c) = -r_5p*k_3 + c_1(c) + v_beta*Gstar*(1 + k_3) - c_2(c)
+#e(c) = (c_1(c)*k_3 + v_beta*Gstar*k_3)
+#
+#p(c) = -b(c) / (3*a)
+#q(c) = p(c)**3 + (b(c)*d(c) - 3*a*e(c))/(6*a**2)
+#r(c) = d(c)/(3*a) + 0.1
+#
+#ip3(c) = (q(c) + (q(c)^2 + (r(c)-p(c)^2)^3)^(1/2))^(1/3) + (q(c) - (q(c)^2 + (r(c)-p(c)^2)^3)^(1/2))^(1/3) + p(c) + 0.15
+
+
+#IP3 quasi steadystate for v_3k=0
+#ip3(c) = poly_a*c^4 + poly_b*c^3 + poly_c*c^2 + poly_d*c + poly_e + Gstar*1.6
+
+#IP3 quasi steadystate for v_3k = 0.5
+ip3(c) = (poly_a-Gstar*2)*c^4 + (poly_b+Gstar*8)*c^3 + (poly_c-Gstar*8)*c^2 + (poly_d+Gstar)*c + poly_e + Gstar*1.6
+
+# Terms on ER
+m_inf(c) = ip3(c)/(ip3(c)+d_1)
+n_inf(c) = c/(c+d_5)
+h_inf(c) = q_2(c)/(q_2(c)+c)
+
+q_2(c) = d_2 *(ip3(c)+d_1)/(ip3(c)+d_3)
+tau_h(c) = 1/(a_2*(q_2(c)+c))
+
+j_ip3r(c) = v_ip3r*m_inf(c)^3*n_inf(c)^3*h^3*((c_t-c)*gamma-c)
+j_leak(c) = v_leak*((c_t-c)*gamma-c)
+j_serca(c) = v_serca*c^1.75/(c^1.75+k_serca^1.75)
+
+# Terms on plasma membrane
+j_in = v_in
+j_out = k_out*c
+
+j_pmca=v_pmca*c^2/(k_pmca^2 + c^2)
+
+j_soc(c,c_t) = v_soc*k_soc^4/(k_soc^4+((c_t-c)*gamma)^4)
+
+# Initial Conditions
+init c=0.094885203, h=0.673
+init c_t=34.887
+
+
+#Bifurcation parameter
+param Gstar = 0
+
+param gamma=5.4054
+
+# Leak for ER
+param v_leak=0.002
+
+# Leak across plasma membrane
+param v_in=0.05, k_out=1.2
+
+# IP3R Parameters
+param v_ip3r=0.222
+param d_1=.13,d_2=1.049,d_3=.9434,d_5=.08234
+param a_2=0.04
+
+# PMCA Params
+param v_pmca=10,k_pmca=2.5
+
+# SOC Params
+param v_soc=1.57,k_soc=90
+
+# SERCA Params
+param v_serca=0.9, k_serca=0.1
+
+# Sneyd Parameter
+param delta=0.2
+
+#IP3 Production Params
+param v_beta = 0.2
+param v_delta = 0.01
+param k_delta = 1.5
+param k_plcdelta = 0.1
+
+#IP3 Degradation Params
+param v_3k = 0
+param k_d = 0.7
+param k_3 = 1
+param r_5p = 0.12
+
+#ip3 quasi steadystate quartic params v_3k=0
+#param poly_a = -0.9049685797426543
+#param poly_b = 2.300251035957971
+#param poly_c = -2.097431287333023
+#param poly_d = 0.8177460821585276
+#param poly_e = -0.005595004891739393
+
+#ip3 quasi steadystate quartic params v_3k=0.5
+param poly_a = -1.2038848594411238
+param poly_b = 3.226096401083219
+param poly_c = -2.955827614167391
+param poly_d = 0.9709610299771475
+param poly_e = -0.01032600827755113
+
+
+@ ylo=0,ds=0.005,dsmin=0.001,dsmax=0.01,nmax=1200,npr=700
+@ autoymin=0,autoymax=.708,parmax=1,autoxmin=0,autoxmax=.5
+@ total=1000,xhi=100,ylo=0,yhi=1.5,nmesh=100
+
+@ bounds=1000
+
+done

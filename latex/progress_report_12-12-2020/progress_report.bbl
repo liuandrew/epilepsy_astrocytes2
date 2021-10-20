@@ -1,0 +1,30 @@
+\begin{thebibliography}{1}
+
+\bibitem{taheri2017diversity}
+M.~Taheri, G.~Handy, A.~Borisyuk, and J.~A. White, ``Diversity of evoked
+  astrocyte ca2+ dynamics quantified through experimental measurements and
+  mathematical modeling,'' {\em Frontiers in systems neuroscience}, vol.~11,
+  p.~79, 2017.
+
+\bibitem{handy2017mathematical}
+G.~Handy, M.~Taheri, J.~A. White, and A.~Borisyuk, ``Mathematical investigation
+  of ip 3-dependent calcium dynamics in astrocytes,'' {\em Journal of
+  computational neuroscience}, vol.~42, no.~3, pp.~257--273, 2017.
+
+\bibitem{han2017mathematical}
+J.~M. Han, A.~Tanimura, V.~Kirk, and J.~Sneyd, ``A mathematical model of
+  calcium dynamics in hsy cells,'' {\em PLoS computational biology}, vol.~13,
+  no.~2, p.~e1005275, 2017.
+
+\bibitem{dupont2003ca2+}
+G.~Dupont, O.~Koukoui, C.~Clair, C.~Erneux, S.~Swillens, and L.~Combettes,
+  ``Ca2+ oscillations in hepatocytes do not require the modulation of insp3
+  3-kinase activity by ca2+,'' {\em FEBS letters}, vol.~534, no.~1-3,
+  pp.~101--105, 2003.
+
+\bibitem{politi2006models}
+A.~Politi, L.~D. Gaspers, A.~P. Thomas, and T.~H{\"o}fer, ``Models of ip3 and
+  ca2+ oscillations: frequency encoding and identification of underlying
+  feedbacks,'' {\em Biophysical journal}, vol.~90, no.~9, pp.~3120--3133, 2006.
+
+\end{thebibliography}
