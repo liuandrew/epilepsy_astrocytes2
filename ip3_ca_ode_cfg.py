@@ -347,6 +347,8 @@ def get_input_value(input_type, t):
         return curve_input(t)
     elif(input_type == 'exponential_oscillation'):
         return exponential_oscillation(t)
+    elif(input_type == 'exponential_oscillation2'):
+        return exponential_oscillation2(t)
     elif(input_type == 'custom'):
         return custom_input(t)
     elif(input_type == 'train'):
@@ -473,6 +475,36 @@ def exponential_input(t):
         return cfg.input_max
     else:
         return cfg.input_min
+
+
+
+
+def exponential_oscillation2(t):
+    '''
+    exponential oscillation using the exponential input ramp up and down
+    
+    note that exponential_input(t) uses cfg.input_start - cfg.input_smoothing as the start point (ramps up
+        over the course of cfg.input_smoothing to reach max at cfg.input_start)
+        so to get spikes to work, need to make sure we pass in a principle time that allows for negatives
+        exponential_input(t) also uses cfg.input_start and cfg.input_duration, so make sure
+            cfg.input_start = 0
+            cfg.input_duration = 0
+        in order for this to work properly and create spikes that directly ramp up and down
+        if wanting actually exponential pulse oscillations with flat tops, make sure
+            cfg.oscillation_on_duration = cfg.input_duration + 2*cfg.input_smoothing
+            cfg.input_start = 0
+            
+    '''
+    principle_t = (t) % (cfg.oscillation_on_duration + cfg.oscillation_off_duration) - cfg.input_smoothing
+    
+#     print((cfg.oscillation_off_duration + cfg.oscillation_on_duration) * cfg.num_oscillations)
+    if(principle_t < cfg.oscillation_on_duration and
+        t < (cfg.oscillation_off_duration + cfg.oscillation_on_duration) * cfg.num_oscillations):
+        return exponential_input(principle_t)
+    else:
+        return cfg.input_min
+
+
 
 
 
@@ -717,7 +749,7 @@ def continue_Gstar_controlled_experiment(input_type='pulse', t_cont=200, max_ste
 
 
 def run_experiment(input_type='pulse', t_f=1000, max_step=0.1, old_gpcr=False, fluxes=False,
-                    fix_c_er=False, noise=False, fix_c_er_func=None):
+                    fix_c_er=False, noise=False, fix_c_er_func=None, multipliers=False):
     '''
     Run an experiment where glutamate is manually given by the specified input type
     old_gpcr: if True, use gpcr model without downstream Gd2 activator
@@ -729,6 +761,7 @@ def run_experiment(input_type='pulse', t_f=1000, max_step=0.1, old_gpcr=False, f
     '''    
     if(old_gpcr):
         set_gpcr_params('old')
+    cfg.t_0 = 0
     cfg.t_f = t_f
     if noise is not False:
         t, y = get_input_plot(input_type, noise=noise)
@@ -754,9 +787,16 @@ def run_experiment(input_type='pulse', t_f=1000, max_step=0.1, old_gpcr=False, f
     cfg.G = 1 - sol.y[4] - sol.y[5] - sol.y[6]
     cfg.Gd = sol.y[5] + sol.y[6]
 
+
     if noise is False:
         cfg.t_input, cfg.glut = get_input_plot(input_type, max_step=max_step)
     
+
+    if multipliers:
+        cfg.c = cfg.c * 1000
+        cfg.p = cfg.p * 1000
+        cfg.glut = cfg.glut * 1000
+
     if fluxes:    
         compute_fluxes()
 
@@ -773,18 +813,18 @@ def continue_experiment(input_type='pulse', t_cont=200, max_step=0.1, fluxes=Fal
     '''
     Continue an experiment
     '''    
-    t_0 = cfg.t[-1]
+    cfg.t_0 = cfg.t[-1]
     t_f = cfg.t[-1] + t_cont
     cfg.t_f = t_f
     init = [cfg.c[-1], cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], cfg.Gstar[-1], 
             cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
-    sol = scipy.integrate.solve_ivp(all_ode_equations, [t_0, t_f], init, 
+    sol = scipy.integrate.solve_ivp(all_ode_equations, [cfg.t_0, t_f], init, 
                                   args=[input_type], max_step=max_step)
     
     cfg.t = np.append(cfg.t, sol.t)
     cfg.c = np.append(cfg.c, sol.y[0])
     cfg.c_tot = np.append(cfg.c_tot, sol.y[1])
-    cfg.c_er = np.append(cfg.c_er, (cfg.c_tot - cfg.c) * cfg.gamma)
+    cfg.c_er = (cfg.c_tot - cfg.c) * cfg.gamma
     cfg.h = np.append(cfg.h, sol.y[2])
     cfg.p = np.append(cfg.p, sol.y[3])
     cfg.Gstar = np.append(cfg.Gstar, sol.y[4])
@@ -818,11 +858,15 @@ def set_init(type='default'):
     if type == 'c_t':
         cfg.all_init = [0.0951442, 34.841184*0.8, 0.673079, 0.056767761, 0, 0, 0, 0]
     if type == 'poisson':
-        load_experiment('poisson/rate_0.2_conc_10', verbose=False)
+        #Note that I lost the actual poisson train experiment I used to use
+        #but this one seems to work just fine
+        # cfg.all_init = [0.11938227778586594, 26.370394600930247, 0.6167209424320252, 0.1442844225467311, 
+        #     0.09114690337250154, 0.13599444638425676, 0.3918773661605453, 0.0034478630682041244]
+        # cfg.all_init = [0.0951442, 26.370394600930247, 0.6167209424320252, 0.1442844225467311, 0, 0, 0, 0]
+        load_experiment('rate_0.2_conc_1_2', verbose=False)
         cfg.all_init = [cfg.c[-1], cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], cfg.Gstar[-1], cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
     if type == 'noise':
         cfg.all_init = [0.144095, 30.296470, 0.639210, 0.118324, 0.019922, 0.046037, 0.012016, 0.001115]
-
 
 
 
@@ -947,8 +991,8 @@ or from XPP saved data
 '''
 
 def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True, plot_input=True, 
-                          ylabel_padding=[-0.23, 0.4], legend_label=None, color=None, linestyle='solid',
-                          alpha=1, remove_yticks=False, remove_xticks=True):
+                          ylabel_padding=[-0.4, 0.4], legend_label=None, color=None, linestyle='solid',
+                          alpha=1, remove_yticks=False, remove_xticks=True, ret_ax=False, multipliers=True):
     '''
     Plot the solutions of the numerical solver for multiple variables
     Use the passed axs, iterating through them one by one and plotting the variables in the given order
@@ -959,7 +1003,7 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
     add_xlabel: whether to add xlabel of time to the last axis
     plot_input: whether first plot is an input (then we will use t_input instead of t)
     ylabel_padding: padding for each ylabel (first is x direction, second is y direction)
-    
+    multipliers: whether to multiply glut, c, p by 1000 for plotting purposes
     This should only be used if more than one variable is being plotted
 
     Ex.
@@ -968,7 +1012,8 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
     plot_experiment_plots(['Gstar', 'p', 'h', 'c'], ax)
     '''
     ylabels = {
-        'glut': r'$\phi$',
+        # 'glut': r'$\phi$',
+        'glut': 'glut \n ($\mu$M)',
         'Gstar': r'$G^*$',
         'G': r'$G$',
         'Gd1': r'$G_\mathrm{d1}$',
@@ -977,9 +1022,11 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
         'lamb': r'$\lambda$',
         'p': r'IP$_3$',
         'h': r'$h$',
-        'c': r'$c$',
+        # 'c': r'$c$',
+        'c': '[Ca$^{2+}$]$_{cyt}$ \n ($\mu$M)',
         'c_tot': r'$c_\mathrm{tot}$',
-        'c_er': r'$c_\mathrm{ER}$',
+        # 'c_er': r'$c_\mathrm{ER}$',
+        'c_er': '[Ca$^{2+}$]$_{ER}$ \n (mM)',
         'J_ip3r': r'$J_\mathrm{IP3R}$',
         'J_serca': r'$J_\mathrm{SERCA}$',
         'J_pmca': r'$J_\mathrm{PMCA}$',
@@ -995,6 +1042,9 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
 
     for i, variable in enumerate(variables):
         y = getattr(cfg, variable)
+
+        if multipliers and variable in ['c', 'p', 'glut']:
+            y = y * 1000
         
         if(plot_input and i==0):
             axs[i].plot(cfg.t_input, y, label=legend_label, color=color, 
@@ -1019,6 +1069,9 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
         for i, variable in enumerate(variables):
             if(i != len(variables) - 1):
                 axs[i].set_xticks([])
+
+    if ret_ax:
+        return axs
 
 
     

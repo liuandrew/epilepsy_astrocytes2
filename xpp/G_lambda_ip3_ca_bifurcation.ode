@@ -41,15 +41,15 @@ p_prod(c,p) = v_beta*Gstar + v_delta*((k_delta)/(1+p))*((c**2)/(c**2 + k_plcdelt
 p_degrad(c,p) = v_3k*((c**4)/(c**4 + k_d**4))*(p/(p+k_3)) + r_5p*p
 
 # Initial Conditions
-init c=0.0951442, h=0.673079
-init c_t=34.841184, p=0.056767761
+init c=0.08782503, h=0.6589214
+init c_t=36.222915, p=0.02694523
 init lamb=0
 
 #Bifurcation parameter
 param glut = 0
 param v_3k = 0.1
 
-param v_delta = 0.01
+param v_delta = 0.005
 
 
 param gamma=5.4054
@@ -96,7 +96,7 @@ param km = 0.4
 # param kr2 = 0.0007
 param kd1 = 0.02
 param kr1 = 0.01
-param kd2 = 0.6
+param kd2 = 1.2
 param kr2 = 0.005
 param klp = 0.0002
 param klm = 0.004

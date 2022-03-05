@@ -1,0 +1,170 @@
+figure out how we can increase calcium peak responses without changing the dynamics too much
+
+Test Gd2 off steady state arnold tongue diagram (glut strength/frequency as axes)
+Test turning off positive/negative feedback
+Test blocking (50%/100%) SOC, PMCA
+    Also test with short individual pulses
+
+Test MP/SP responses with negative feedback off to see if we get enough MP responses as sanity check
+
+Maybe later think about simplified analysis, Gd1/Gd2 timescales
+
+See if anyone in Utah doing RL stuff
+
+look at experimental data from Taheri paper where IP3 transients are collected from to see realistic IP3 data
+see if there is any information on ca2+ response to baths
+check short pulses to see if ip3 produces to something realistic, or see if the calcium response to ip3 is the problem
+    check to make sure we're getting a good range of responses - with and without feedback
+
+Add white noise to h or ip3 or calcium
+    Check if just noise in h, p, c, G* can do it, or if you need a combination of noise
+    Try to answer if we need noise to get MP responses with feedback, and what kind of noise
+        Hopefully see that certain variables need much less noise than others
+    Maybe try different initial condition with just one variable
+
+    Different initial conditions at +/- 20% of p value or h value, see if we can rescue
+    with one fixed Gstar experiment (pulse)
+    5 conditions - one for each variable to start at different initial, and then all 5 at the same time with random noise
+    
+
+
+Multiply parameter for positive/negative/both feedbacks similar to initial condition plots
+Scatter plots showing effects on response types for each conditions
+Summary of whether feedback/spontaneous activity should be responsible for the distribution of response types
+
+
+Figure out what glutamate inputs lead to good IP3 values
+Measure ampltitude, total, duration, rise, decay
+Try to create a similar plot to calcium classification for IP3 and see what IP3 is doing
+
+
+
+Paper in 4 blocks
+1. Intro, background
+    - how people modeled before
+    - why is it important (astrocytes, desensitization, etc.)
+2. Modeling
+    - where pieces are taken from
+3. Model verification
+    - testing against something known, checking that it does what it needs to
+    - variety of calcium responses
+    - fits some data
+4. Explainations/predictions
+    - explain noisy data
+
+Parts 3/4 are results section
+
+*Double check that with kp/km increase that double bath still have correct response
+
+think about freq/amp graphs in terms of bifurcations
+    oscillations are not very influenced by negative ca->ip3 feedback
+    corresponding bifurcation diagrams for extreme values of positive and negative feedback
+
+Discussion - can we contribute to the discussion of positive vs negative ca->ip3 feedback. Do we have evidence for feedback being/not being there? What possible role do the feedbacks have
+
+record delays for all single peak responses (delay between onset of glut and onset of spike). Interested to see if we would not see a response in data due to delay
+glutamate input characteristics
+also look at diversity plots but turning off pos/neg feedback
+also look at Marsa's experimentally derived distributions
+
+
+
+We propose experiments that would distinguish whether one or the other or both types of desensitization are at play in a particular experimental preparation. Then , we suggest that the experimentally-observed reduction in calcium level (or a reduction in amplitude of the continued calcium spike oscillations) in response to a sustained stimulus may be more dependent on GPCR desensitization than on depletion of calcium levels in the endoplasmic reticulum of the cell. Next , we show that astrocyte spontaneous calcium activity contributes to the variability of calcium responses to a brief agonist pulse. Finally , we demonstrate that potential positive and negative feedback loops from calcium onto IP3 production play crucial roles in determining the response delay and the distribution of the calcium response types. Thus, we predict that the presence and the relative prominence of these feedback loops can be assessed based on experimentally recorded calcium responses to specific experimental perturbations.
+
+1. Experiments about which types of desensitization is present
+    make predictions of what it would look like to have different types of desensitization
+    show how the differences can be quantitatively/qualitatively measured/determined
+        for both types of desensitization, we could have
+        1. fast/slow build up
+        2. fast/slow falloff
+        3. large/small effect (this is probably more detectable in quantitative measures)
+    text about what we expect to have (resensitization over what time frame)
+        we run under the assumption that Gd1 is 1.fast,2.fast,3.large, and
+        Gd2 is 1.slow,2.slow,3.large
+    naturally to decouple, need to have intermediary
+    could we model this using double exponentials directly?
+        parameters 
+            - characteristic ramp up/ramp down times
+            - time lag from end of stimulus
+                this would be the most qualitatively noticeable
+                we should be able to pick out a time for the second bath that leads to maximal lack of resensitization
+            - maximum value with respect to 
+    should further be able to perform experiments where we hold bath for long time until
+    equilibrium reached
+    - Demonstrate how changing time constants affects the time for double baths needed
+    - Cant be fully qualitative, but aim for an order of magnitude
+    
+
+2. Experiments showing how sustained stimulus has decreased calcium response over time
+    a. experimental calcium traces
+    b. double exponential ramp up/down stimulus leading to this fall off
+    c. numerically fix ER levels/GPCR activation to show responses
+
+    Summary plots:
+    Measure slope and response level of plateau response at e.g. 10-15s after stimulus and plot as a function of strength of kd1 and kd2 to quantify effects on response
+    First dropoff e.g. from spike to 5s after should be insensitive to kd1 and kd2
+    * kd1 affects level of plateau
+    * kd2 affects slope and final drop off
+    * neither affects first drop off (shape of plateau)
+
+    For oscillations track amplitude and freq dependence of subsequent spikes
+
+    Maybe try to show the sawtooth vs ramping spikes in negative feedback
+    Shape of periodic responses, can demonstrate by taking average calcium levels between spikes
+    Can also do it while adding white noise to the calcium traces to show that averaging procedure would work even with noise
+
+    Also include absence or pressence of delays 
+
+
+3. Spontaneous activity affects calcium response to pulse
+    a. show experimental traces of pulse responses and how it looks stochastically determined when a spike occurs
+    b. show patterned/skipping behavior with pulses depending on stim size
+    c. show how noise of different sizes can affect pulses
+
+    3 points here should be alright
+    * noise affects skipping
+    * noise can affect initial delays
+        - if you work in a situation with less spontaneous activity, maybe see more delays
+    * add noise to step function to see if amplitude changes etc
+
+    Extra credit: look at marsa's markov chain paper
+
+4. Positive/Negative feedbacks affect distribution of response types
+    a. need to discuss what we mean by response types (Greg paper)
+    b. show how positive/negative feedbacks affect bifurcation diagram, and hence responses
+    c. show how positive/negative feedbacks affects transients, and hence responses
+    d. ideally show some sort of clear test of whether we have feedbacks or not
+
+
+
+
+Author names, affiliations
+Title that we submitted to conference
+supported by NSF
+put a focus on the model more, esp 2 types of desensitization
+shorten abstract, make the 4 points a separate header of take home messages
+
+model figure
+Color code model figure (GPCR black, GPCR* red, Gd1/Gd2 blue, IP3 green)
+G/A change to glu
+colored box between IP3 -> Ca2+
+write out a colored legend to explain
+
+abstract keep to first paragraph "activation to the calcium signal."
+main points are how we detect Gd1/Gd2 and what they do, and how to detect positive/negative feedback loops and what they do
+    what are really paying attention to - 3 things
+    Gd1/Gd2
+    pos/neg
+    noise
+"we study the role of putative positive and negative feedback loops" 
+
+
+look at bifurcation diagrams
+
+
+Ask Marsa for hidden markov model paper to see what she was interested in looking at for spritz experiments
+where do plateau responses come from in low positive feedback, since bifurcation diagram suggests single peak - how do you distinguish between the SP and PL?
+    maybe look at vector field?
+    trajectories in 3d phase space
+
+call v_delta v+ and v3k v-

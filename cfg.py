@@ -27,7 +27,7 @@ km = 0.4 #inactivation rate
 kd1 = 0.02 #homologous (Gd1) deactivation rate
 kr1 = 0.01 #homologous reactivation rate
 #G -> Gd2 -> G
-kd2 = 0.6 #heterologous (Gd2) deactivation rate
+kd2 = 1.2 #heterologous (Gd2) deactivation rate
 kr2 = 0.005 #heterologous reactivation rate
 #lambda production and degradation
 klp = 0.0002 #production
@@ -168,7 +168,7 @@ custom_input_vals = [0.05, 0.15, 0]
 #
 #Production parameters
 v_beta = 0.2
-v_delta = 0.01
+v_delta = 0.005
 k_delta = 1.5
 k_plcdelta = 0.1
 
