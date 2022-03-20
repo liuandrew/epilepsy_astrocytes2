@@ -28,10 +28,48 @@ matplotlib.rc('text', usetex=True)
 color_cycle = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
                '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
+# def run_spritz(period=10, conc=0.6, dur=1, num=10, noise=False, osc_type=1,
+#               fix_c_er=False):
+#     '''
+#     DEPRECATED
+#     Run a spritz experiment
+#     period: second between spritzes
+#     conc: concentration
+#     dur: duration of spritz
+#     num: number of sprtizes1
+#     osc_type:
+#         1: exponential ramping
+#         2: flat pulses
+#     !Note that specific configurations of input_smoothing and oscillation on duration
+#     need to be used to get exponential_oscillation2 to work (check help details)
+#     '''
+    
+#     max_step = dur * 0.1
+#     # print(max_step)
+#     t_f = (period + dur) * (num + 1)
+    
+#     cfg.input_max = conc
+#     cfg.input_start = 0
+#     cfg.input_duration = 0
+#     cfg.oscillation_on_duration = dur
+#     cfg.oscillation_off_duration = period
+#     cfg.num_oscillations = num
+#     cfg.input_smoothing = dur/2
+    
+#     if osc_type == 1:
+#         run_experiment('exponential_oscillation2', t_f=t_f, max_step=max_step, noise=noise,
+#                       fix_c_er=fix_c_er)
+#     if osc_type == 2:
+#         run_experiment('oscillation', t_f=t_f, max_step=max_step, noise=noise,
+#                       fix_c_er=fix_c_er)
+        
+        
+   
 def run_spritz(period=10, conc=0.6, dur=1, num=10, noise=False, osc_type=1,
               fix_c_er=False):
     '''
-    Run a spritz experiment
+    Run a spritz experiment - use a different solver step size for spritz versus
+    rest time to significantly speed up the experiment
     period: second between spritzes
     conc: concentration
     dur: duration of spritz
@@ -43,9 +81,10 @@ def run_spritz(period=10, conc=0.6, dur=1, num=10, noise=False, osc_type=1,
     need to be used to get exponential_oscillation2 to work (check help details)
     '''
     
-    max_step = dur * 0.1
-    # print(max_step)
-    t_f = (period + dur) * (num + 1)
+    max_step1 = dur * 0.1
+    
+        # print(max_step)
+    final_t_f = (period + dur) * (num + 1)
     
     cfg.input_max = conc
     cfg.input_start = 0
@@ -55,12 +94,26 @@ def run_spritz(period=10, conc=0.6, dur=1, num=10, noise=False, osc_type=1,
     cfg.num_oscillations = num
     cfg.input_smoothing = dur/2
     
+    max_step2 = period * 0.02
+    
+    cur_t = 0
     if osc_type == 1:
-        run_experiment('exponential_oscillation2', t_f=t_f, max_step=max_step, noise=noise,
-                      fix_c_er=fix_c_er)
-    if osc_type == 2:
-        run_experiment('oscillation', t_f=t_f, max_step=max_step, noise=noise,
-                      fix_c_er=fix_c_er)
+        input_type = 'exponential_oscillation2'
+    elif osc_type == 2:
+        input_type = 'oscillation'
+        
+    for i in range(num):
+        #run spritz part
+        if i == 0:
+            run_experiment(input_type, t_f=dur, max_step=max_step1)
+        else:
+            continue_experiment(input_type, t_cont=dur, max_step=max_step1)
+            
+        #run rest part until next spike
+        continue_experiment(input_type, t_cont=period, max_step=max_step2)
+    
+    
+            
     
     
     

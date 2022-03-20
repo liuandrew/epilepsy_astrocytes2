@@ -11,8 +11,10 @@ Initiate parameter values
 #----------------------------
  
 #G <-> G*
-kp = 0.9 #activation rate
-km = 0.4 #inactivation rate
+# kp = 0.03 #activation rate
+# km = 0.04 #inactivation rate
+kp = 0.02
+km = 0.2
 
 #Old parameter set before lambda is added
 # #G* -> Gd1 -> G
@@ -177,8 +179,8 @@ k_plcdelta = 0.1
 v_3k = 0.1
 k_d = 0.7
 k_3 = 1
-# r_5p = 0.08,
-r_5p = 0.118
+r_5p = 0.08
+# r_5p = 0.12
 
 #-----------
 #Initial conditions
@@ -195,7 +197,8 @@ x_02 = [0.086541496665789, 36.490839775010841, 0.625512446053023, 0]
 
 
 #initial conditions for full IP3/Ca/GPCR system
-all_init = [0.0951442, 34.841184, 0.673079, 0.056767761, 0, 0, 0, 0]
+# all_init = [0.0951442, 34.841184, 0.673079, 0.056767761, 0, 0, 0, 0]
+all_init = [0.09013785, 35.744397, 0.66821744, 0.040422910, 0.0, 0.0, 0.0, 0.0]
 # = [c, c_tot, h, p, Gstar, Gd1, Gd2, lambda],
 all_init_no_pos_no_neg = [0.08650867, 36.4904174, 0.62551797, 0, 0, 0, 0, 0]
 all_init_no_neg = [0.095338464, 34.8106342748, 0.673122891, 0.05723924177, 0, 0, 0, 0]

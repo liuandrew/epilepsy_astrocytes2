@@ -1,0 +1,115 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\begin{document}
+
+\section{Dynamical System}
+
+The following ODEs govern calcium ($c$) dynamics
+
+\begin{align}
+\frac{dc}{dt} &= J_{IP3R} + J_{ERleak} - J_{SERCA} \quad + \delta [J_{ECSadd} - J_{PMCA} + J_{SOC}] \\
+\frac{dc_{tot}}{dt} &= \delta [J_{ECSadd} - J_{PMCA} + J_{SOC}] \\
+\frac{dh}{dt} &= \frac{h_{\infty} - h}{\tau_h}
+\end{align}
+
+where the equations related to $h$ are
+\begin{align}
+\tau_h &= \frac{1}{a_2(Q_2 + c)} \\ 
+\quad h_{\infty} &= \frac{Q_2}{Q_2 + c} \\
+Q_2 &= d_2\biggr(\frac{p+d_1}{p+d_3} \biggr)
+\end{align}
+
+The various fluxes $J$ are given each by
+\begin{align}
+J_{IP3R} &= v_{IP3R} m_{\infty}^3 n_{\infty}^3 h^3 (c_{ER} - c) \\
+m_{\infty} &= \frac{p}{p+d_1}, \quad n_{\infty} = \frac{c}{c+d_5} \\
+J_{SERCA} &= v_{SERCA} \frac{c^{1.75}}{c^{1.75} + k_{SERCA}^{1.75}} \\ 
+J_{PMCA} &= v_{PMCA} \frac{c^2}{c^2 + k_{PMCA}^2} \\
+J_{SOC} &= v_{SOC} \frac{k_{SOC}^2}{k_{SOC}^2 + c_{ER}^2} \\
+J_{ERleak} &= v_{ERleak}(c_{ER} - c)\\
+J_{ECSadd} &= v_{in} - k_{out}c
+\end{align}
+
+and in equations (1), (2), $\delta$ is a scaling size parameter. The other dynamic variable of interest is IP3 ($p$), which has ODEs
+
+\begin{align}
+IP3_{production} &= v_{\beta}G^* + v_{+} \frac{k_{\delta}}{1+p} \frac{c^2}{c^2 + k_{PLC\delta}^2} \\
+IP3_{degradation} &= v_{-} \frac{c^4}{c^4 + k_d^4} \frac{p}{p+k_3} + r_{5p}p \\
+\frac{dp}{dt} &= IP3_{production} - IP3_{degradation}
+\end{align}
+
+$G^*$ is the strength of external stimulation to the system and our bifurcation parameter. Importantly in equations (14) and (15), $v_{\delta}$ is the strength of positive $c \rightarrow p$ feedback, and $v_{3k}$ is the strength of negative $c \rightarrow p$ feedback. If $v_{\delta}=0$ or $v_{3k}=0$ , we say that there is no positive or no negative feedback respectively.
+
+The GPCR model has the following equations
+
+\begin{align}
+% \frac{dG^*}{dt} &= k_p \gamma G - k_m G^* - k_{d1} G^* \\
+\frac{dG^*}{dt} &= k_p \gamma G - k_m G^* - k_{d1} G^* - k_{d2}G^*\lambda \\
+\frac{dG_{d1}}{dt} &= k_{d1}G^* - k_{r1} G_{d1} \\
+% \frac{dG_{d2}}{dt} &= k_{d2}G^* G - k_{r2} G_{d2} \\
+\frac{dG_{d2}}{dt} &= k_{d2}(G^*+G)\lambda - k_{r2} G_{d2} \\
+\frac{d\lambda}{dt} &= k_{\lambda+}G^* - k_{\lambda-}\lambda
+\end{align}
+
+All parameters are given in the following table:
+
+\begin{center}
+\begin{tabular}{l l l}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Value/Units} \\
+\hline
+& Calcium Parameters & \\
+\hline
+v$_{\mathrm{IP3R}}$ & Max IP3 Receptor Flux & 0.222 s$^{-1}$ \\
+v$_{\mathrm{ER\_leak}}$ & Cytosol to ER leak & 0.002 s$^{-1}$ \\
+v$_{\mathrm{in}}$ & Rate of leak into Cytosol from Plasma Membrane & 0.05$\mu$M s$^{-1}$ \\
+k$_{\mathrm{out}}$ & Rate of leak out of Cytosol from Plasma Membrane & 1.2 s$^{-1}$ \\
+v$_{\mathrm{SERCA}}$ & Max SERCA Flux & 0.9$\mu$M s$^{-1}$ \\
+k$_{\mathrm{SERCA}}$ & Half-Saturation for SERCA & 0.1$\mu$M \\
+v$_{\mathrm{PMCA}}$ & Max PMCA Flux & 10$\mu$M s$^{-1}$ \\
+k$_{\mathrm{PMCA}}$ & Half-Saturation for PMCA & 2.5$\mu$M \\
+v$_{\mathrm{SOC}}$ & Max SOC channels Flux & 1.57$\mu$M s$^{-1}$ \\
+k$_{\mathrm{SOC}}$ & Half-Saturation for SOC channels & 90$\mu$M \\
+$\delta$ & Scale Factor (ratio of membrane transport to ER transport) & 0.2 \\
+d$_1$ & Dissociation constant for IP3 & 0.13$\mu$M \\
+d$_2$ & Dissociation constant for Ca2+ inhibition & 1.049$\mu$M \\
+d$_3$ & Receptor dissociation constant for IP3 & 0.9434$\mu$M \\
+d$_5$ & Ca2+ activation constant & 0.08234$\mu$M \\
+a$_2$ & Ca2+ inhibition constant & 0.04 $\mu$M$^{-1}$ s$^{-1}$ \\
+\hline
+& IP3 Parameters & \\
+\hline
+v$_\beta$ & PLC$\beta$ IP3 Generation from GPCR & 0.2 \\
+k$_\delta$ & & 1.5 \\
+k$_{\mathrm{PLC}\delta}$ & & 0.1 \\
+v$_{-}$ & Negative Calcium to IP3 Feedback via Phosphorylation & 0.1 {\color{red}(2.0)}\\
+v$_+$ & Positive Calcium to IP3 Feedback Rate via PLC$\delta$ & 0.005 {\color{red}(0.01)}\\
+k$_d$ & & 0.7 \\
+k$_3$ & & 1 \\
+r$_{5p}$ & Natural IP3 Degradation & 0.08 \\
+\hline
+& GPCR Parameters & \\
+\hline
+k$_{p}$ & GPCR Activation Rate & 0.02 {\color{red}(0.03)} \\
+k$_{m}$ & GPCR Deactivation Rate & 0.2 {\color{red}(0.04)} \\
+k$_{d1}$ & Homologous (Gd1) Deactivation Rate & 0.02 \\
+k$_{r1}$ & Homologous Reactivation Rate & 0.01 \\
+k$_{d2}$ & Heterologous (Gd2) Deactivation Rate & 1.2 {\color{red}(0.003)} \\
+k$_{r2}$ & Heterologous Reactivation Rate & 0.005 {\color{red}(0.0007)}\\
+k$_{lp}$ & Downstream PKA ($\lambda$) Production & 0.0002 \\
+k$_{lm}$ & PKA ($\lambda$) Degradation & 0.004 \\
+\hline
+& Diversity Transient Parameters &\\
+\hline
+r$_{\mathrm{rise}}$ & Rate of Exponential Growth & [0.002-12] s$^{-1}$ \\
+d$_{\mathrm{decay}}$ & Duration of IP3 decline & [15-220] s \\
+d$_{\mathrm{rise}}$ & Duration of IP3 increase & [1-41] s \\
+A & Max amplitude of IP3 transient & [0.2-0.9] $\mu$M \\
+\end{tabular}
+\end{center}
+\end{document}
+

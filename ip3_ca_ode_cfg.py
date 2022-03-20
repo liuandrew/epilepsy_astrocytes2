@@ -461,24 +461,6 @@ def exponential_oscillation(t):
 
 
 
-def exponential_input(t):
-    '''
-    This function will generate an exponential increase and decay glutamate input
-    '''
-    input_half = cfg.input_duration / 2
-    input_end = cfg.input_start + cfg.input_duration
-    if(t >= cfg.input_start - cfg.input_smoothing and t < (cfg.input_start)):
-        return cfg.input_max * (1 - np.exp((t - (cfg.input_start - cfg.input_smoothing)) / (t - cfg.input_start)))
-    elif(t >= (input_end) and t < (input_end + cfg.input_smoothing)):
-        return cfg.input_max * np.exp((t - input_end) / (t - (input_end + cfg.input_smoothing)))
-    elif(t >= (cfg.input_start) and t <= (input_end)):
-        return cfg.input_max
-    else:
-        return cfg.input_min
-
-
-
-
 def exponential_oscillation2(t):
     '''
     exponential oscillation using the exponential input ramp up and down
@@ -511,7 +493,19 @@ def exponential_oscillation2(t):
 def exponential_train(t):
     '''
     Get exponential input based on a Poisson spike train
+    Will automatically generate a train of spike intervals if one is not saved to cfg.train
+        we can also generate a new train by calling generate_train_times
+    Due to the way exponential_input is written, recommended config values are
+    cfg.input_start = 1
+    cfg.input_smoothing = 1
+    cfg.input_duration = 2
+    cfg.input_max = 2
     '''
+    try:
+        cfg.train
+    except:
+        cfg.train = generate_train_spike_times()
+        
     if t > np.max(cfg.train):
         idx = len(cfg.train) - 1
     else:
@@ -522,6 +516,59 @@ def exponential_train(t):
     t = t - cfg.train[idx]
     return exponential_input(t)
 
+
+def exponential_input(t):
+    '''
+    This function will generate an exponential increase and decay glutamate input
+    Used only by exponential_train function
+    '''
+    input_half = cfg.input_duration / 2
+    input_end = cfg.input_start + cfg.input_duration
+    if(t >= cfg.input_start - cfg.input_smoothing and t < (cfg.input_start)):
+        return cfg.input_max * (1 - np.exp((t - (cfg.input_start - cfg.input_smoothing)) / (t - cfg.input_start)))
+    elif(t >= (input_end) and t < (input_end + cfg.input_smoothing)):
+        return cfg.input_max * np.exp((t - input_end) / (t - (input_end + cfg.input_smoothing)))
+    elif(t >= (cfg.input_start) and t <= (input_end)):
+        return cfg.input_max
+    else:
+        return cfg.input_min
+
+
+
+def generate_train_spike_times(seed=0):
+    # Seed the generator for consistent results.
+    np.random.seed(seed)
+
+    # We need to start with some sort of r(t). Presumably the asker of this
+    # question has access to this.
+    r = np.full(4000, 100)
+
+    # Define our time interval, delta t. Use one millisecond as suggested
+    # in the paper.
+    dt = 0.001
+
+    # Draw 7 random numbers on the interval [0, 1)
+    x = np.random.rand(4000)
+
+    # Initialize output.
+    spikes = np.zeros_like(r)
+
+    # If x[i] <= r * dt, generate a spike.
+    mask = x <= r * dt
+
+    # Set to 1.
+    spikes[mask] = 1
+    
+    interval = 0
+    intervals = []
+    for spike in spikes:
+        if spike == 1:
+            intervals.append(interval)
+            interval = 0
+        else:
+            interval += 1
+    spike_times = np.cumsum(intervals)
+    return spike_times
 
 
 def curve_input(t):
@@ -1043,7 +1090,7 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
     for i, variable in enumerate(variables):
         y = getattr(cfg, variable)
 
-        if multipliers and variable in ['c', 'p', 'glut']:
+        if multipliers and variable in ['c', 'p']:
             y = y * 1000
         
         if(plot_input and i==0):
@@ -1055,7 +1102,7 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
     
     if(add_ylabels):
         for i, variable in enumerate(variables):
-            axs[i].set_ylabel(ylabels[variable], rotation='horizontal', ha='left')
+            axs[i].set_ylabel(ylabels[variable], rotation='horizontal', ha='left', va='center')
             axs[i].get_yaxis().set_label_coords(ylabel_padding[0], ylabel_padding[1])
             
     if(add_xlabel):
