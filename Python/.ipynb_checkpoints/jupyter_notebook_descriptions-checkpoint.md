@@ -1,0 +1,97 @@
+# Descriptions of .py files
+
+## cfg.py
+
+File where model parameters are read from. Important parameters/variables (see Modeling section of paper outline as well)
+* kp, km: positive and negeative GPCR activation in responose to glutamate. kp was adjusted to give a variety of G* outputs in response to biological concentrations of glutamate, and km adjusted to give reasonable G* decay times
+* kd1, kr1, kd2, kr2: parameters controlling rate of Gd1, Gd2 production and decay (as given in schematic)
+* klp, klm: parameters controlling rate of lambda production and decay (where lambda represents the downstream pathway of the GPCR used for heterologous deactivation of GPCR). All Gd1, Gd2 parameters were tuned using double bath protocol
+* v_3k (v_-): calcium dependent IP3 degradation parameter. This is a tricky parameter to tune, but importantly note that when v_3k is larger, is creates oscillation delays which are not biological
+* v_delta (v_+): calcium dependent IP3 generation parameter. This was made lower to make calcium oscillations more expressive (have a wider range of amplitudes)
+* r_5p: natural IP3 degradation rate. This was tuned so that initial conditions were better match those from the original paper
+* all_init: initial cconditions for running simulations from
+    * all_init_<no_pos/no_neg/no_pos_no_neg>: initial conditions for if positive/negative/both Ca2+ -> IP3 feedback was to be turned off
+
+## ip3_ca_ode_cfg.py
+
+This is the main file that contains code to actually run simulations. It is divided into 3 sections
+* ODE equations: functions used by the numerical solver scipy.integrate. Given an input, they compute and return the derivative like cdot, pdot, etc.
+* Input functions: these functions can be used to generate a range of inputs. 
+    * For example, calling pulse_input(100) will return the size of the input at t=100s
+    * For the most part we don't call these functions directly, although the get_input_plot function 
+
+
+# Description of each of the Jupyter Notebooks
+
+# Final Plotting Notebooks
+
+The following notebooks were used to generate finalized plots for the paper. In general, each notebook took care of 1 main section of the paper.
+
+## GPCR_modeling_plots.ipynb
+
+This notebook includes plots that are used to show how the GPCR behaves and how we fit it to experimental data.
+
+## ca_classification_2.ipynb
+
+This notebook is used to generate the plots for the diversity of Calcium response type plots. It includes:
+* Creating a set of glutamate inputs that produce a similar range of response distributions to the original diversity paper
+* Modifying certain channel parameters similar to the original paper and confirming that similar results can be found when using the entire GPCR model
+* Modifying Ca2+ to IP3 feedbacks and GPCR adaptation parameters to see their effects on the diversity of calcium responses
+
+## deriv_speed_delay.ipynb
+
+This notebook is used to generate plots exploring the reasoning for why calcium oscillation delays occur.
+
+## ca_falloffs.ipynb
+
+This notebook is used to generate the plots for the section of the paper concerning calcium response falloffs. Two main sections:
+* Plateau type falloffs
+* Oscillation type falloffs
+
+
+# Experimental Notebooks
+
+The following notebooks were used to perform various types of experiments in modeling and exploration of the model
+
+## bifurcation_plotting.ipynb
+This notebook was the first of a set of files to explore what might be causing the delays in calcium oscillations, which was assumed to be caused by the negative Ca->IP3 feedback
+(!) indicates this might still be interesting
+    * Checked G* bifurcation diagrams for different values of k_d and v_3k to see how these affected bifurcations
+    * Checked G* bifurcations diagrams for values of v_delta and k_plcdelta
+    * Ran some various preliminary numerical solutions to see what factors may be important to the delay (later discovered that delays can occur without positive OR negative feedback)
+    * Checked a bunch of things that didn't end up seeming relevant
+        * IP3 production and degradation in the p-c, and h-c space
+        * Some animations of trajectories superimposed against IP3 bifurcation (when IP3 is a control paramter)
+    * (!) Found a 2D bifurcation of Gstar and c_tot (changing c_tot to be in quasi-steady state, since this with feedback showed delay behavior)
+    * Checked bifurcations in h and c_tot
+    
+
+## ca_classification.ipynb
+This notebook attempted to recreate Marsa's calcium trace classification algorithm, and was mostly successful. 
+**This notebook has not been refactored with the ip3_ca_ode.py code yet**
+Importantly, in Section 3.1, we recreate Figure 4 from Marsa's paper. Some of the points are colored differently than in the paper, so Section 3.2 has code to help drill down on certain points and see whether code should be adjusted.
+
+## glutamate_gpcr_experiments.ipynb
+This notebook contains a bunch of experiments playing with the glutamate GPCR portion of the model, especially to determine whether some parameters need to be adjusted. Each section is pretty well documented.
+(!) Section 5 contains experiments that were requested by Marsa, although some of the data looks a little sketchy so should be reexamined to make sure it is looking more reasonable.
+Section 6 is an important section that looks at values of glutamate required to stimulate values of G* in a useful range for the IP3->Ca model. Notably, as it is glutamate needs to be on the order of 0.1-1 to be useful, and this can be scaled by adjusting the k_+ paramter
+
+## glutamate_gpcr.ipynb
+This was simply the notebook to write the GPCR model into Python
+
+## ip3_c_phaseplane.ipynb
+This notebook has some cool code that manually computes the c nullcline, and can plot the vector fields, as well as create animations that show how the c nullcline moves during the trajectory of the solution. This was the second attempt to figure out why delays were happening.
+Animation in Section 4. Section 5 and 6 were failed attempts to find more information about the delays.
+
+## ip3_ca_experiments_search.ipynb
+This was the third and final file for trying to figure out oscillation delays. It was primarily concerned with computing the delays for a range of v_3k/v_delta and G* values, finding that negative feeback extended the range where delays were found, but without any feedback the system could still exhibit delays near the Gstar Hopf bifurcations.
+Section 2 was an attempt to find where bifurcations would occur in all the other systematic parameters, to see if a SN bifurcation could be found, but ultimately these didn't seem to be fruitful.
+(!) We should consider trying to find a fixed point somewhere else in the 4D space, rather than sticking to the one that leads to the Hopf bifurcation.
+Section 3 constructs the Jacobian of the system, although this is not useful either.
+
+## ip3_ca_experiments.ipynb
+This notebook has some experiments that detail how the full dynamical system behaves, and plays around with feedback as well. 
+Section 3 importantly demonstrates that we can get similar SP, MP, LL, PL dynamics starting from glutamate inputs, and will later be used for the Ca classification algorithms.
+
+## ip3_ode.ipynb
+This notebook was simply the start to translating the dynamics code into Python. It contains some initial playing with the system, but nothing that isn't explored in better depth in another file.

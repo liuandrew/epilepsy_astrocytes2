@@ -16,15 +16,15 @@ param glut = 0
 
 
 #GPCR params
-param kp = 0.03
-param km = 0.04
+param kp = 0.02
+param km = 0.2
 # param kd1 = 0.01
 # param kr1 = 0.005
 # param kd2 = 0.003
 # param kr2 = 0.0007
 param kd1 = 0.02
 param kr1 = 0.01
-param kd2 = 0.6
+param kd2 = 1.2
 param kr2 = 0.005
 param klp = 0.0002
 param klm = 0.004

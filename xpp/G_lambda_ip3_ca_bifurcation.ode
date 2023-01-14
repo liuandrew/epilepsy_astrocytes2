@@ -1,5 +1,4 @@
-# XPP code to recreate bifurcation diagrams
-# Copyright: Marsa Taheri and Gregory Handy, 2016
+# Code to run GPCR with secondary lambda downstream pathway desensitization
 
 # ODEs
 c' = (j_ip3r(c,p)-j_serca(c)+j_leak(c)+(j_in-j_out-j_pmca+j_soc(c,c_t))*delta)
@@ -85,11 +84,11 @@ param k_plcdelta = 0.1
 #IP3 Degradation Params
 param k_d = 0.7
 param k_3 = 1
-param r_5p = 0.118
+param r_5p = 0.08
 
 #GPCR params
-param kp = 0.9
-param km = 0.4
+param kp = 0.02
+param km = 0.2
 # param kd1 = 0.01
 # param kr1 = 0.005
 # param kd2 = 0.003
