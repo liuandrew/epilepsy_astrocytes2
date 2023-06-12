@@ -12,9 +12,10 @@ Initiate parameter values
  
 #G <-> G*
 # kp = 0.03 #activation rate
-# km = 0.04 #inactivation rate
-kp = 0.02
-km = 0.2
+kp = 0.0055
+km = 0.04 #inactivation rate
+# kp = 0.02
+# km = 0.2
 
 #Old parameter set before lambda is added
 # #G* -> Gd1 -> G

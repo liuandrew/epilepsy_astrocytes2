@@ -11,6 +11,7 @@ import matplotlib
 from matplotlib import rc
 import pickle
 from tqdm import tqdm
+import proplot as pplt
 
 # from ip3_ca_ode import *
 from ip3_ca_ode_cfg import *
@@ -20,11 +21,11 @@ import os
 save = 'figures/paper_plots/falloff/'
 
 #set figure font sizes for readability
-font = {'size' : 30,
-       'family': 'serif',
-       'sans-serif': ['Helvetica']}
-matplotlib.rc('font', **font)
-matplotlib.rc('text', usetex=True)
+# font = {'size' : 30,
+#        'family': 'serif',
+#        'sans-serif': ['Helvetica']}
+# matplotlib.rc('font', **font)
+# matplotlib.rc('text', usetex=True)
 color_cycle = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
                '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
@@ -127,6 +128,26 @@ def capture_c(t):
     idx = np.argmax(cfg.t >= t)
     c = cfg.c[idx]
     return c
+
+
+
+'''Oscillation functions'''
+
+def get_peaks():
+    peaks = scipy.signal.find_peaks(cfg.c)[0]
+    return_low_lim = 0.2 #how far does calcium have to return before we consider
+                         #ourselves to be in standard oscillation range
+    first_peak = peaks[0]
+    # return_low = np.argmax(cfg.c[first_peak:] < return_low_lim)
+    # if return_low == 0:
+    #     osc_start = -1
+    # else:
+    #     osc_start = first_peak + return_low
+    # peaks = np.append([first_peak], scipy.signal.find_peaks(cfg.c[osc_start:])[0] + osc_start)
+    c_peaks = cfg.c[peaks]
+    t_peaks = cfg.t[peaks]
+    
+    return t_peaks, c_peaks
 
 
 import matplotlib.image as mpimg

@@ -9,15 +9,18 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib
 import pickle
+import proplot as pplt
+import random
+import math
 
 import cfg
 
 #set figure font sizes for readability
-font = {'size' : 30,
-       'family': 'serif',
-       'sans-serif': ['Helvetica']}
-matplotlib.rc('font', **font)
-matplotlib.rc('text', usetex=True)
+# font = {'size' : 30,
+#        'family': 'serif',
+#        'sans-serif': ['Helvetica']}
+# matplotlib.rc('font', **font)
+# matplotlib.rc('text', usetex=True)
 color_cycle = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
                '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
@@ -35,6 +38,9 @@ linestyles = {
     'unstable_po': '--'    #unstable periodic orbit    
 }
 
+pplt.rc.update({'font.size': 10})
+c_label = r'[Ca$^{2+}$]$_{cyt}$'
+c_er_label = r'[Ca$^{2+}$]$_{ER}$'
 
 
 #-------
@@ -354,8 +360,10 @@ def get_input_value(input_type, t):
         return exponential_oscillation2(t)
     elif(input_type == 'custom'):
         return custom_input(t)
-    elif(input_type == 'train'):
+    elif(input_type == 'exponential_train'):
         return exponential_train(t)
+    elif(input_type == 'train'):
+        return train(t)
     elif(input_type == 'exponential_pulse'):
         return exponential_input(t)
     else:
@@ -520,6 +528,13 @@ def exponential_train(t):
     return exponential_input(t)
 
 
+def train(t):
+    '''Measure train input as the sum of individual inputs in the past
+    input_duration time'''
+    num_spikes_active = ((cfg.train > t - cfg.input_duration) & (cfg.train < t)).sum()
+    output = num_spikes_active * cfg.input_max
+    return output
+
 def exponential_input(t):
     '''
     This function will generate an exponential increase and decay glutamate input
@@ -536,6 +551,20 @@ def exponential_input(t):
     else:
         return cfg.input_min
 
+
+
+def next_time(rate):
+    return -math.log(1 - random.random()) / rate
+
+def generate_train(rate, t_f=300):
+    total_time = 0
+    spikes = []
+    while True:
+        nxt = next_time(rate)
+        total_time += nxt
+        if total_time > t_f:
+            return np.array(spikes)
+        spikes.append(total_time)
 
 
 def generate_train_spike_times(seed=0):
@@ -924,9 +953,13 @@ def set_init(type='default'):
     noise: after running with normal noisy of 0.03 sd
     '''
     if type == 'default':
-        cfg.all_init = [0.0951442, 34.841184, 0.673079, 0.056767761, 0, 0, 0, 0]
+        # cfg.all_init = [0.0951442, 34.841184, 0.673079, 0.056767761, 0, 0, 0, 0]
+        cfg.all_init = [0.09013785, 35.744397, 0.66821744, 0.040422910, 0.0, 0.0, 0.0, 0.0]
+    
     if type == 'c_t':
-        cfg.all_init = [0.0951442, 34.841184*0.8, 0.673079, 0.056767761, 0, 0, 0, 0]
+        # cfg.all_init = [0.0951442, 34.841184*0.8, 0.673079, 0.056767761, 0, 0, 0, 0]
+        cfg.all_init = [0.09013785, 32, 0.66821744, 0.040422910, 0.0, 0.0, 0.0, 0.0]
+        # cfg.all_init = [0.09013785, 32.0951, 0.66821744, 0.040422910, 0.0, 0.0, 0.0, 0.0]
     if type == 'poisson':
         #Note that I lost the actual poisson train experiment I used to use
         #but this one seems to work just fine
@@ -1062,7 +1095,8 @@ or from XPP saved data
 
 def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True, plot_input=True, 
                           ylabel_padding=[-0.4, 0.4], legend_label=None, color=None, linestyle='solid',
-                          alpha=1, remove_yticks=False, remove_xticks=True, ret_ax=False, multipliers=True):
+                          alpha=1, remove_yticks=False, remove_xticks=True, ret_ax=False, multipliers=True,
+                          simple_ylabels=False):
     '''
     Plot the solutions of the numerical solver for multiple variables
     Use the passed axs, iterating through them one by one and plotting the variables in the given order
@@ -1114,6 +1148,32 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
         'ip3_degradation': r'IP$_{3\mathrm{deg}}$'
     }
     
+    simple_ylabels = {
+        # 'glut': r'$\phi$',
+        'glut': r'$\phi$',
+        'Gstar': r'$G^*$',
+        'G': r'$G$',
+        'Gd1': r'$G_\mathrm{d1}$',
+        'Gd2': r'$G_\mathrm{d2}$',
+        'Gd': r'$G_\mathrm{d,total}$',
+        'lamb': r'$\lambda$',
+        'p': r'IP$_3$',
+        'h': r'$h$',
+        # 'c': r'$c$',
+        'c': '[Ca$^{2+}$]$_{cyt}$',
+        'c_tot': r'$c_\mathrm{tot}$',
+        # 'c_er': r'$c_\mathrm{ER}$',
+        'c_er': '[Ca$^{2+}$]$_{ER}$',
+        'J_ip3r': r'$J_\mathrm{IP3R}$',
+        'J_serca': r'$J_\mathrm{SERCA}$',
+        'J_pmca': r'$J_\mathrm{PMCA}$',
+        'J_soc': r'$J_\mathrm{SOC}$',
+        'J_er_leak': r'$J_\mathrm{ER leak}$',
+        'J_ecs_add': r'$J_\mathrm{ECS add}$',
+        'ip3_production': r'IP$_{3\mathrm{prod}}$',
+        'ip3_degradation': r'IP$_{3\mathrm{deg}}$'
+    }
+    
     if type(axs) == type(None):
         fig, axs = plt.subplots(len(variables), 1, figsize=(10, 10))
 
@@ -1132,7 +1192,14 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
     
     if(add_ylabels):
         for i, variable in enumerate(variables):
-            axs[i].set_ylabel(ylabels[variable], rotation='horizontal', ha='left', va='center')
+            if simple_ylabels:
+                ylabel = simple_ylabels[variable]
+                rot = 90
+            else:
+                ylabel = ylabels[variable]
+            
+            
+            axs[i].set_ylabel(ylabel, rotation='horizontal', ha='left', va='center')
             axs[i].get_yaxis().set_label_coords(ylabel_padding[0], ylabel_padding[1])
             
     if(add_xlabel):
@@ -1153,7 +1220,40 @@ def plot_experiment_plots(variables, axs=None, add_ylabels=True, add_xlabel=True
 
     
 
-
+def add_abc_to_subaxes(ax, text='A.', left=0, top=1.05):
+    '''
+    Add ABC type labels to specific subaxes similar to those
+    from proplot
+    
+    Note that if creating a single ax as in fig, ax = pplt.subplots()
+    the ax to pass in is add_abc_to_subaxes(ax[0]) since it works
+    with subaxes specifically
+    '''
+    abc_kw = pplt.rc.fill(
+        {
+            'size': 'abc.size',
+            'weight': 'abc.weight',
+            'color': 'abc.color',
+            'family': 'font.family',
+        },
+        context=True
+    )
+    border_kw = pplt.rc.fill(
+        {
+            'border': 'abc.border',
+            'borderwidth': 'abc.borderwidth',
+            'bbox': 'abc.bbox',
+            'bboxpad': 'abc.bboxpad',
+            'bboxcolor': 'abc.bboxcolor',
+            'bboxstyle': 'abc.bboxstyle',
+            'bboxalpha': 'abc.bboxalpha',
+        },
+        context=True,
+    )
+    kw = {'zorder': 3.5, 'transform': ax.transAxes}
+    
+    ax.text(left, top, text, **abc_kw, **border_kw, **kw)
+    
 
 
 

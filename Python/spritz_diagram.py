@@ -170,3 +170,116 @@ def get_random_init(var_ranges):
     rnges = var_ranges[:, 1] - var_ranges[:, 0]
     init = np.random.random(8) * rnges + base
     return init
+
+
+
+def evaluate_peaks(cutoff=0.2, c=None, t=None, 
+                  cutoff_peak=None, cutoff_trough=None,
+                  period=None, skip_first=None):
+    '''
+    Determine which peaks and troughs are valid to count up how many
+        real responses we have for spritz experiments
+        
+    cutoff: the c concentration that has to be passed to be considered
+        a true peak or trough
+    peaks, troughs: pass manually if wanting to use saved data
+    cutoff_peak, cutoff_trough: if passed, these take precedence
+        individual thresholds for what counts for peaks and troughs
+    period, skip_first_spikes: if setting these, we can skip information
+        before the first spritzes
+    '''
+    if c is None:
+        c = cfg.c
+    if t is None:
+        t = cfg.t
+    
+    peaks = scipy.signal.find_peaks(c)[0]
+    troughs = scipy.signal.find_peaks(-c)[0]
+    
+    if cutoff_peak is None:
+        cutoff_peak = cutoff
+    if cutoff_trough is None:
+        cutoff_trough = cutoff
+        
+    if period is not None and skip_first is not None:
+        start_idx = np.argmax(t > skip_first*(period+1))
+        peaks = peaks[peaks > start_idx]
+        troughs = troughs[troughs > start_idx]
+        
+    #Remove peaks and troughs not past the cutoff
+    peaks = peaks[c[peaks] > cutoff_peak]
+    troughs = troughs[c[troughs] < cutoff_trough]
+    
+    if len(peaks) == 0:
+        return []
+    
+    #Remove troughs that happen before first peak
+    troughs = troughs[troughs > peaks.min()]
+
+    # Find valid_peaks (those with a trough between them and the last peak)
+    valid_peaks = []
+    peak_idx = 0
+    trough_idx = -1
+    while peak_idx < len(peaks):
+        peak = peaks[peak_idx]
+        valid_peaks.append(peak)
+
+        # Find next trough
+        next_troughs = np.argwhere(troughs > peak)
+        # Both break statements go through if no more troughs happen after peaks
+        if len(next_troughs) < 1:
+            break
+        next_trough_idx = next_troughs[0].item()
+        if next_trough_idx <= trough_idx:
+            break
+        trough_idx = next_trough_idx
+        next_trough = troughs[next_trough_idx]
+        # print(next_trough)
+
+        # Find next peak
+        next_peaks = np.argwhere(peaks > next_trough)
+
+        if len(next_peaks) < 1:
+            break
+        next_peak = next_peaks[0].item()
+        peak_idx = next_peak
+
+        # print(peak_idx)
+    return valid_peaks
+
+
+def plot_spritz(glut, per, ax, num_spikes=None, max_t=None, lw=1,
+                dur=1):
+    '''Run a spritz experiment and plot the result to the given axis
+    glut: concentration
+    per: period of spritzes
+    ax: axis to plot to
+    num_spikes / max_t: one of these must be given to tell how many spritzes to perform
+    lw: linewidth to draw spritz indicators
+    dur: spritz duration for run_spritz
+    '''
+    if max_t is None and num_spikes is None:
+        raise ValueError('One of num_spikes or max_t must be set')
+    elif num_spikes is None:
+        num_spikes = int(max_t / (per + 1))
+    
+    run_spritz(per, glut, num=num_spikes, osc_type=2, dur=dur)
+    
+    ax.plot(cfg.t, cfg.c)
+    # ax.text(0.8, 0.7, f'T{per:.1f}$\phi${glut:.1f}',
+    #         transform='axes', ha='right')
+
+    # Plot line
+    line_x = [0]
+    line_y = [0]
+    cur_x = 0
+    cur_y = 0
+    for _ in range(num_spikes):
+        line_x.append(cur_x)
+        line_y.append(1-cur_y)
+        cur_y = 1 - cur_y
+        cur_x = cur_x + per + 1
+        line_x.append(cur_x)
+        line_y.append(cur_y)
+    ax.plot(line_x, np.array(line_y)*2-0.5, c='k', alpha=0.3,
+            lw=lw)

@@ -10,6 +10,7 @@ import matplotlib.gridspec as gridspec
 import matplotlib
 import pandas as pd
 from tqdm import tqdm
+import proplot as pplt
 
 import itertools
 import os
@@ -18,11 +19,11 @@ from ip3_ca_ode_cfg import *
 import cfg
 
 #set figure font sizes for readability
-font = {'size' : 30,
-       'family': 'serif',
-       'sans-serif': ['Helvetica']}
-matplotlib.rc('font', **font)
-matplotlib.rc('text', usetex=True)
+# font = {'size' : 30,
+#        'family': 'serif',
+#        'sans-serif': ['Helvetica']}
+# matplotlib.rc('font', **font)
+# matplotlib.rc('text', usetex=True)
 color_cycle = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
                '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
@@ -32,6 +33,39 @@ diversity_colors = {
     'PL': 'black',
     'MP': '#b11b1a', #maroon
     'LL': '#cbcae6' #grey
+}
+
+# Example glut curve parameters to generate canonical examples
+#  for each response type
+glut_curves = {
+    'SP': {
+        'A': 1,
+        'd_decay': 15,
+        'd_rise': 21,
+        'r_rise': 0.09,
+        'r_decay': compute_r_decay(1, 15)
+    },
+    'MP': {
+        'A': 1,
+        'd_decay': 220,
+        'd_rise': 11,
+        'r_rise': 0.02,
+        'r_decay': compute_r_decay(1, 220)
+    },
+    'PL': {
+        'A': 2,
+        'd_decay': 97,
+        'd_rise': 21,
+        'r_rise': 0.09,
+        'r_decay': compute_r_decay(2, 97)
+    },
+    'LL': {
+        'A': 2,
+        'd_decay': 220,
+        'd_rise': 41,
+        'r_rise': 0.09,
+        'r_decay': compute_r_decay(2, 220)
+    }
 }
 
 '''save figures folder for this section'''
@@ -122,6 +156,8 @@ def diversity_experiment(calibrate=0, progress=False, t_f=150, suite=1):
         4: calibrate to poisson train (glut=2 spike train)
             also fixes Gstar to 0 and cytosolic c to standard steady state
             and decreases initial p, all in order to more reasonable traces
+        5: calibrate to steady state (no input) and multiply c_tot by 0.9
+        list: give actual inits to use
     progress: whether to print progress
     t_f: how long trials are run
     suite:
@@ -134,42 +170,50 @@ def diversity_experiment(calibrate=0, progress=False, t_f=150, suite=1):
     
     c_init = cfg.c[-1]
     Gstar_init = 0
-    if calibrate == 0:
-        cfg.input_max = 0
-        run_experiment('pulse', t_f=1000, max_step=2)
-        all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
-                     cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
-    elif calibrate == 1:
-        cfg.input_max = 0.7
-        cfg.input_duration = 1000
-        run_experiment('pulse', t_f=1000, max_step=2)
-        all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
-                     cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
-    elif calibrate == 2:
-        cfg.input_max = 0
-        run_experiment('pulse', t_f=1000, max_step=2, noise=0.03)
-        all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
-                     cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
-    elif calibrate == 3:
-        cfg.input_max = 4
-        cfg.oscillation_on_duration = 2
-        cfg.oscillation_off_duration = 100
-        run_experiment('oscillation', t_f=1000, max_step=0.5)
-        all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
-                     cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
-    elif calibrate == 4:
-        cfg.input_start = 1
-        cfg.input_smoothing = 1
-        cfg.input_duration = 2
-        cfg.input_max = 2
-        run_experiment('train', max_step=0.5)
-        # all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
-        #              cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]        
-        all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1]*0.5, Gstar_init, 
-                     cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]        
+    if type(calibrate) == list:
+        all_init2 = calibrate
     else:
-        set_init('poisson')
-        all_init2 = cfg.all_init
+        if calibrate == 0:
+            cfg.input_max = 0
+            run_experiment('pulse', t_f=1000, max_step=2)
+            all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
+                        cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
+        elif calibrate == 1:
+            cfg.input_max = 0.7
+            cfg.input_duration = 1000
+            run_experiment('pulse', t_f=1000, max_step=2)
+            all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
+                        cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
+        elif calibrate == 2:
+            cfg.input_max = 0
+            run_experiment('pulse', t_f=1000, max_step=2, noise=0.03)
+            all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
+                        cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
+        elif calibrate == 3:
+            cfg.input_max = 4
+            cfg.oscillation_on_duration = 2
+            cfg.oscillation_off_duration = 100
+            run_experiment('oscillation', t_f=1000, max_step=0.5)
+            all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
+                        cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
+        elif calibrate == 4:
+            cfg.input_start = 1
+            cfg.input_smoothing = 1
+            cfg.input_duration = 2
+            cfg.input_max = 2
+            run_experiment('train', max_step=0.5)
+            # all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1], Gstar_init, 
+            #              cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]        
+            all_init2 = [c_init, cfg.c_tot[-1], cfg.h[-1], cfg.p[-1]*0.5, Gstar_init, 
+                        cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]  
+        elif calibrate == 5:
+            cfg.input_max = 0
+            run_experiment('pulse', t_f=3000, max_step=10)
+            all_init2 = [cfg.c[-1], cfg.c_tot[-1]*0.9, cfg.h[-1], cfg.p[-1], cfg.Gstar[-1], 
+                        cfg.Gd1[-1], cfg.Gd2[-1], cfg.lamb[-1]]
+        else:
+            set_init('poisson')
+            all_init2 = cfg.all_init
 
         
     cfg.all_init = all_init2
@@ -177,7 +221,8 @@ def diversity_experiment(calibrate=0, progress=False, t_f=150, suite=1):
     
     if suite == 1:
         ranges = {
-            'A': np.array([1, 2, 4, 8, 16]),
+            # 'A': np.array([1, 2, 4, 8, 16]),
+            'A': np.array([0.6, 1, 1.5, 2, 3]),
             'd_decay': [15, 97, 179],
             'd_rise': [1, 21, 41],
             'r_rise': [0.003, 0.15, 0.8]
@@ -188,7 +233,8 @@ def diversity_experiment(calibrate=0, progress=False, t_f=150, suite=1):
             it = tqdm(it)
             
     elif suite == 2:
-        A_range = np.array([1, 2, 4, 8, 16])
+        # A_range = np.array([1, 2, 4, 8, 16])
+        A_range = np.array([0.6, 1, 1.5, 2, 4])
         d_decay_range = [15, 56, 97, 138, 179, 220]
         d_rise_range = [1, 11, 21, 31, 41]
         combs = list(itertools.product(A_range, d_decay_range, d_rise_range))
@@ -588,6 +634,9 @@ def calcium_response_classification(t, c, vis=False, peak_priority=True, verbose
     
     response_checkpoints = np.append(t_response_start, t[mp_troughs])
     response_checkpoints = np.append(response_checkpoints, t_response_end)
+    
+    vis_dict['response_checkpoints'] = response_checkpoints
+    
     if( (np.diff(response_checkpoints) > ll_duration).any() ):
         if(verbose):
             print('Some response segment was longer than 70s')
@@ -643,27 +692,27 @@ def calcium_response_classification(t, c, vis=False, peak_priority=True, verbose
             print('No valid troughs that were <50% height of neighboring peaks')
 #         #now we are in the case that there are no valid troughs, i.e. only 1 valid peak
 #         #first check if the whole response stays >15% max response for > ll_duration
-#         c_levelled = c - base_c #c_levelled is the calcium response minus the base
-#         response_15_index = c_levelled > max_height_c * 0.15
-#         t_15 = t[response_15_index]
-#         t_15_duration = t_15.max() - t_15.min() #this is the duration that response stays
-#                                                 #above 15% of max
-#         if(t_15_duration > ll_duration):
-#             if(vis):
-#                 print('No troughs and the entire reponse stayed about 15% max height for longer than 70s')
-#             return conditional_vis_return('LL', vis_dict, vis)
-        
-        ll_c = c - base_c
-        for i, peak in enumerate(mp_peaks):
-            ll_c[peak:] = ll_c[peak:] - ((c[peak] - base_c) * 0.15)
-            if i > 0:
-                ll_c[peak:] = ll_c[peak:] + ((c[mp_peaks[i - 1]] - base_c) * 0.15)
-        t_15 = t[ll_c > 0]
-        t_15_duration = t_15.max() - t_15.min()
+        c_levelled = c - base_c #c_levelled is the calcium response minus the base
+        response_15_index = c_levelled > max_height_c * 0.15
+        t_15 = t[response_15_index]
+        t_15_duration = t_15.max() - t_15.min() #this is the duration that response stays
+                                                #above 15% of max
         if(t_15_duration > ll_duration):
-            if(verbose):
+            if(vis):
                 print('No troughs and the entire reponse stayed about 15% max height for longer than 70s')
             return conditional_vis_return('LL', vis_dict, vis)
+        
+        # ll_c = c - base_c
+        # for i, peak in enumerate(mp_peaks):
+        #     ll_c[peak:] = ll_c[peak:] - ((c[peak] - base_c) * 0.15)
+        #     if i > 0:
+        #         ll_c[peak:] = ll_c[peak:] + ((c[mp_peaks[i - 1]] - base_c) * 0.15)
+        # t_15 = t[ll_c > 0]
+        # t_15_duration = t_15.max() - t_15.min()
+        # if(t_15_duration > ll_duration):
+        #     if(verbose):
+        #         print('No troughs and the entire reponse stayed about 15% max height for longer than 70s')
+        #     return conditional_vis_return('LL', vis_dict, vis)
         
         #next we are trying to decide between SP and PL response
         #the major peak duration is the time between response start and the first time
@@ -821,7 +870,7 @@ def diversity_barchart(data, ylim=60, ax=None, legend=True, loc='best', bbox_to_
         ax.yticks(np.arange(0, ylim+1, 20))
     
     for i in range(len(bar_counts)):
-        s = str(round(bar_counts[i], 1)) + '\%'
+        s = str(round(bar_counts[i], 1)) + '%'
         ax.text(i, bar_counts[i] + 1, s ,horizontalalignment='center', fontsize=fontsize)
         
     if legend:
