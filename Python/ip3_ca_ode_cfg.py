@@ -38,7 +38,6 @@ linestyles = {
     'unstable_po': '--'    #unstable periodic orbit    
 }
 
-pplt.rc.update({'font.size': 10})
 c_label = r'[Ca$^{2+}$]$_{cyt}$'
 c_er_label = r'[Ca$^{2+}$]$_{ER}$'
 
