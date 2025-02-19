@@ -1280,6 +1280,10 @@ def plot_bifurcation(filename, ax=None, increasing=True, ret=False, jump_lim=0.0
     
     for i, bifurc_type in enumerate(colors.keys()):
         d = data[data[3] == i+1]
+        d0 = d[0].to_numpy()
+        d1 = d[1].to_numpy()
+        d2 = d[2].to_numpy()
+        # return d
         if(len(d) == 0):
             continue
         splits = np.where(np.abs(d[0].diff()) > jump_lim)[0] #check where the plot splits up and plot 
@@ -1297,10 +1301,10 @@ def plot_bifurcation(filename, ax=None, increasing=True, ret=False, jump_lim=0.0
             if(increasing):
                 end = final_index
             else:
-                end = None
+                end = -1
 
-            ax.plot(d.iloc[:end, 0], d.iloc[:end, 1], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
-            ax.plot(d.iloc[:end, 0], d.iloc[:end, 2], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
+            ax.plot(d0[:end], d1[:end], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
+            ax.plot(d0[:end], d2[:end], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
         else:
             #plot the branches of the bifurcation type
             for j in range(len(splits) + 1):
@@ -1310,18 +1314,18 @@ def plot_bifurcation(filename, ax=None, increasing=True, ret=False, jump_lim=0.0
                     start = splits[j - 1]
 
                 if(j == len(splits)):
-                    end = None #last split contains all remaining data points
+                    end = -1 #last split contains all remaining data points
                 else:
                     end = splits[j]
                 
                 if(increasing and (end == None or end > final_index)):
                     end = final_index
-                    
-                ax.plot(d.iloc[start:end, 0], d.iloc[start:end, 1], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
-                ax.plot(d.iloc[start:end, 0], d.iloc[start:end, 2], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
+
+                ax.plot(d0[start:end], d1[start:end], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
+                ax.plot(d0[start:end], d2[start:end], c=colors[bifurc_type], linestyle=linestyles[bifurc_type])
     if(ret):
         return data
-    
+  
     
 
 
